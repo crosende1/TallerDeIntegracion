@@ -15,9 +15,12 @@ namespace Probando.Controllers
     {
        
             // POST api/values
-        public string Post([FromUri]string value, string hashDado)
-        {
-          
+        public string Post(string value, string hashDado)
+    //public string Post ()    
+    {
+
+            //string value = "ABCDE";
+            //string hashDado = "baby";
                 StringBuilder Sb = new StringBuilder();
 
                 using (SHA256 hash = SHA256Managed.Create()) {
@@ -35,7 +38,7 @@ namespace Probando.Controllers
                     return "valido: True" + "\r\n" + "mensaje: " + value;
                 }
                 else {
-                    return "valido: False" + "\r\n" + "mensaje: " + value;
+                    return "valido: False" + "\r\n" + "mensaje: " + hashCreado;
                 }
                 
                      }
@@ -48,26 +51,11 @@ namespace Probando.Controllers
         // GET api/values
         public IEnumerable<string> Get()
         {
-            return new string[] { "kiwi", "banana", "apple" };
+            throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.Created));
+           
         }
 
-        // GET api/values/5
-        public string Get(int id)
-        {
-            return "tomate" + "arbol";
-        }
-
-     
-
-        // PUT api/values/5
-        public string Put([FromBody]string value)
-        {
-            return "Put returning: " + value;
-        }
-
-        // DELETE api/values/5
-        public void Delete(int id)
-        {
+        
         }
     
-}}
+}

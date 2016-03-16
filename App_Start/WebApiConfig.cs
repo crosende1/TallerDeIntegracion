@@ -11,7 +11,7 @@ namespace Probando
         {
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
-                routeTemplate: "{controller}/{id}/{id2}",
+                routeTemplate: "api/{controller}/{id}/{id2}",
                 defaults: new { id = RouteParameter.Optional,  id2 = RouteParameter.Optional }
             );
 
