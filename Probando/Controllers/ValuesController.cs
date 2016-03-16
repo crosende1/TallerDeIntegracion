@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Web.Http;
 using System.Security.Cryptography;
 using System.Text;
+using System.Web.Http;
 
 
 
@@ -16,8 +17,8 @@ namespace Probando.Controllers
        
             // POST api/values
        public string Post(string value, string hashDado)
-    //public string Post ()    
-    {
+     
+             {
 
                 StringBuilder Sb = new StringBuilder();
 
@@ -29,29 +30,60 @@ namespace Probando.Controllers
                     Sb.Append(b.ToString("x2"));
                 }
 
-                Boolean iguales = false;
+                Boolean valido = false;
+                string mensaje = "";
                 string HashOriginal = hashDado.ToLower();
                 string hashCreado = Sb.ToString();
                 string hashFinal = hashCreado.ToLower();
-                if (HashOriginal==hashFinal) {
-                    iguales = true;
-                    return "valido:" + iguales + "\r\n" + "mensaje: " + value;
+
+
+
+                if (hashCreado == HashOriginal)
+                {
+                    string json = JsonConvert.SerializeObject(new
+                    {
+                        results = new List<Result>()
+                {
+
+                    
+                     new Result { valido = true, mensaje= hashCreado }
                 }
-                else {
-                    return "valido: " + iguales + "\r\n" + "mensaje: " + hashCreado ;
+                    });
                 }
-                
+
+                else
+                {
+                    string json = JsonConvert.SerializeObject(new
+                    {
+                        results = new List<Result>()
+                {
+
+                    
+                     new Result { valido = false, mensaje= hashCreado }
+                }
+                    });
+                }
+
+                return valido + hashCreado; 
+              
+
                      }
 
                 // fuente de el hash: http://stackoverflow.com/questions/16999361/sha-256-hash-in-c-sharp
 
-             
-       
+
+       public class Result
+       {
+           public Boolean valido { get; set; }
+           public string hashCreado { get; set; }
+           public string mensaje { get; set; }
+       }
 
         // GET api/values
         public IEnumerable<string> Get()
         {
             throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.Created));
+            //return HttpResponseMessage.HttpStatusCode.Created;
            
         }
 
