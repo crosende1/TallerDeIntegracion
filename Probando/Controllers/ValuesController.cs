@@ -15,12 +15,10 @@ namespace Probando.Controllers
     {
        
             // POST api/values
-        public string Post(string value, string hashDado)
+       public string Post(string value, string hashDado)
     //public string Post ()    
     {
 
-            //string value = "ABCDE";
-            //string hashDado = "baby";
                 StringBuilder Sb = new StringBuilder();
 
                 using (SHA256 hash = SHA256Managed.Create()) {
@@ -31,14 +29,16 @@ namespace Probando.Controllers
                     Sb.Append(b.ToString("x2"));
                 }
 
+                Boolean iguales = false;
                 string HashOriginal = hashDado.ToLower();
                 string hashCreado = Sb.ToString();
                 string hashFinal = hashCreado.ToLower();
                 if (HashOriginal==hashFinal) {
-                    return "valido: True" + "\r\n" + "mensaje: " + value;
+                    iguales = true;
+                    return "valido:" + iguales + "\r\n" + "mensaje: " + value;
                 }
                 else {
-                    return "valido: False" + "\r\n" + "mensaje: " + hashCreado;
+                    return "valido: " + iguales + "\r\n" + "mensaje: " + hashCreado ;
                 }
                 
                      }
@@ -59,3 +59,6 @@ namespace Probando.Controllers
         }
     
 }
+
+
+
